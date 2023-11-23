@@ -6,7 +6,7 @@ function display_usage() {
   echo "Release builder"
   echo -e "\nUsage:./build_release.sh [flags].\n"
   echo -e "Available flags:\n"
-  echo -e "  -c \tThe chain where you want to deploy (migaloo|juno|terra|...)"
+  echo -e "  -c \tThe chain where you want to deploy (migaloo|juno|furya|terra|...)"
 }
 
 if [ -z $1 ]; then
@@ -31,7 +31,7 @@ flag=""
 
 case $chain in
 
-juno | terra)
+juno | furya | terra)
   flag="-osmosis_token_factory"
   ;;
 migaloo)
@@ -66,9 +66,9 @@ docker_options=(
 
 # Optimized builds
 if [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-  docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/workspace-optimizer-arm64:0.14.0$flag")
+  docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/workspace-optimizer-arm64:0.14.0")
 else
-  docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/workspace-optimizer:0.14.0$flag")
+  docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/workspace-optimizer:0.14.0")
 fi
 
 echo "${docker_command[@]}"
